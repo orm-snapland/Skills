@@ -1,0 +1,8 @@
+Copyright (c) 2026 Snapland. All rights reserved.
+
+The contents of this repository are proprietary to Snapland unless a
+specific file states otherwise. Skills are written for Snapland's own
+Claude surfaces (claude.ai, Claude Code, and the Claude API).
+
+Do not copy, publish, or upload these skills outside those surfaces
+without permission from Snapland.

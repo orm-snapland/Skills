@@ -1,0 +1,26 @@
+{
+  "skill_name": "your-skill-name",
+  "evals": [
+    {
+      "id": "happy-path",
+      "prompt": "Replace with a realistic multi-step request that should succeed.",
+      "expected_output": "Describe the observable result, not a vague impression.",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": "messy-input",
+      "prompt": "החלף בבקשה אמיתית בעברית, עם סלנג או שדות חסרים.",
+      "expected_output": "Describe what the skill must still get right when the input is messy.",
+      "files": [],
+      "assertions": []
+    },
+    {
+      "id": "edge-case",
+      "prompt": "Replace with an edge case that the baseline run got wrong.",
+      "expected_output": "Describe the correct handling of that edge.",
+      "files": [],
+      "assertions": []
+    }
+  ]
+}
