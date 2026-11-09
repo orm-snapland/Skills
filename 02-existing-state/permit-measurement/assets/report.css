@@ -1,0 +1,19 @@
+
+:root{--ink:#12263A;--soft:#3D5163;--line:#D7DEE5;--tint:#F4F7F9;--n:#2E6E8E;--s:#A9741A;--g:#4C8B5A;--r:#9E3B32}
+*{box-sizing:border-box} body{font-family:Heebo,sans-serif;color:var(--ink);font-size:9.4pt;line-height:1.55;margin:0;direction:rtl;font-variant-numeric:tabular-nums}
+h1{font-size:21pt;margin:4px 0 2px;line-height:1.15} h2{font-size:12pt;margin:0;border-bottom:1.5px solid var(--ink);padding-bottom:3px}
+.eb{font-size:7.6pt;font-weight:700;letter-spacing:.14em;color:var(--n)} .sub{color:var(--soft);font-size:10.5pt}
+.cover{border-top:3px solid var(--ink);padding-top:9px}
+.meta{display:flex;border:1px solid var(--line);background:var(--tint);margin-top:10px} .meta div{flex:1;padding:6px 9px;border-left:1px solid var(--line)} .meta div:last-child{border-left:0}
+.k{font-size:7pt;color:var(--soft)} .v{font-weight:700;font-size:9.6pt}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0} .kpi{border:1px solid var(--line);padding:8px 10px;border-top:4px solid var(--c)}
+.kpi .n{font-size:17pt;font-weight:700;color:var(--c);line-height:1.1} .kpi .l{font-size:7.6pt;color:var(--soft)}
+.plan{border:1px solid var(--line);padding:6px;text-align:center} .plan svg{width:100%;max-height:150mm}
+.legend{display:flex;gap:14px;justify-content:center;font-size:8pt;color:var(--soft);margin-top:4px} .legend i{display:inline-block;width:11px;height:11px;margin-left:4px;vertical-align:-1px;border:1.5px solid}
+section{margin-top:14px} table{width:100%;border-collapse:collapse;margin-top:6px;font-size:8.8pt}
+th{background:var(--ink);color:#fff;font-weight:500;padding:4px 6px;text-align:right} td{padding:3.5px 6px;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:left;direction:ltr} tr.t td{font-weight:700;background:#F4E9D6} tr.st td{font-weight:700;background:#EAF1F5}
+.flag{border:1px solid var(--r);border-right:4px solid var(--r);background:#FCF6F5;padding:8px 11px;margin-top:10px} .flag b{color:var(--r)}
+ol{margin:6px 0 0;padding-right:18px} li{margin-bottom:4px}
+.vx{font-family:"DejaVu Sans Mono",monospace;direction:ltr;text-align:left;font-size:7.6pt;line-height:1.5;word-break:break-word}
+.pb{page-break-before:always} .note{font-size:8pt;color:var(--soft)} img{width:100%}

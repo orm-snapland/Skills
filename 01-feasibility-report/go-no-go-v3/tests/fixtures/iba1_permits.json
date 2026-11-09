@@ -1,0 +1,218 @@
+{
+ "permits": [
+  {
+   "permit_number": "20210763",
+   "application_number": "20190280",
+   "status": "completed",
+   "work_type": "new_construction",
+   "application_date": "2019-02-12",
+   "issue_date": "2021-11-09",
+   "distance_m": 22.0,
+   "authorized_units": 26,
+   "land_parcel_snap_ids": [
+    "lan-1c91c48398c58aad"
+   ]
+  },
+  {
+   "permit_number": "20240458",
+   "application_number": "20230530",
+   "status": "completed",
+   "work_type": "addition",
+   "application_date": "2023-04-16",
+   "issue_date": "2024-08-14",
+   "distance_m": 22.0,
+   "authorized_units": 0,
+   "land_parcel_snap_ids": [
+    "lan-1c91c48398c58aad"
+   ]
+  },
+  {
+   "permit_number": null,
+   "application_number": "20240748",
+   "status": "under_review",
+   "work_type": "new_construction",
+   "application_date": "2024-05-26",
+   "issue_date": null,
+   "distance_m": 43.3,
+   "authorized_units": 33,
+   "land_parcel_snap_ids": [
+    "lan-9b2733e42f963dc5"
+   ]
+  },
+  {
+   "permit_number": "20240700",
+   "application_number": "20220677",
+   "status": "issued",
+   "work_type": "new_construction",
+   "application_date": "2022-05-02",
+   "issue_date": "2024-12-03",
+   "distance_m": 44.1,
+   "authorized_units": 27,
+   "land_parcel_snap_ids": [
+    "lan-6a9123722bcd5402"
+   ]
+  },
+  {
+   "permit_number": null,
+   "application_number": "20241543",
+   "status": "under_review",
+   "work_type": "new_construction",
+   "application_date": "2024-11-03",
+   "issue_date": null,
+   "distance_m": 62.9,
+   "authorized_units": 14,
+   "land_parcel_snap_ids": [
+    "lan-0def22dce084a98f"
+   ]
+  },
+  {
+   "permit_number": "20231375",
+   "application_number": "20210255",
+   "status": "issued",
+   "work_type": "new_construction",
+   "application_date": "2021-02-17",
+   "issue_date": "2026-02-15",
+   "distance_m": 67.3,
+   "authorized_units": 15,
+   "land_parcel_snap_ids": [
+    "lan-fe94b2fee3b2386c"
+   ]
+  },
+  {
+   "permit_number": null,
+   "application_number": "20231630",
+   "status": "under_review",
+   "work_type": "demolition",
+   "application_date": "2023-11-19",
+   "issue_date": null,
+   "distance_m": 68.8,
+   "authorized_units": 10,
+   "land_parcel_snap_ids": [
+    "lan-895ad28458c2dcd0"
+   ]
+  },
+  {
+   "permit_number": null,
+   "application_number": "20231377",
+   "status": "under_review",
+   "work_type": "new_construction",
+   "application_date": "2023-09-11",
+   "issue_date": null,
+   "distance_m": 80.0,
+   "authorized_units": 18,
+   "land_parcel_snap_ids": [
+    "lan-0c26ab139d3e6254"
+   ]
+  },
+  {
+   "permit_number": "20231125",
+   "application_number": "20220048",
+   "status": "active",
+   "work_type": "new_construction",
+   "application_date": "2022-01-09",
+   "issue_date": "2025-07-22",
+   "distance_m": 102.3,
+   "authorized_units": 25,
+   "land_parcel_snap_ids": [
+    "lan-6894d671c53a3167"
+   ]
+  },
+  {
+   "permit_number": "20231124",
+   "application_number": "20220047",
+   "status": "active",
+   "work_type": "demolition",
+   "application_date": "2022-01-09",
+   "issue_date": "2025-07-22",
+   "distance_m": 104.7,
+   "authorized_units": 25,
+   "land_parcel_snap_ids": [
+    "lan-1b17ab534e3dc343"
+   ]
+  },
+  {
+   "permit_number": "20230840",
+   "application_number": "20191264",
+   "status": "active",
+   "work_type": "new_construction",
+   "application_date": "2019-10-31",
+   "issue_date": "2024-04-07",
+   "distance_m": 134.2,
+   "authorized_units": 23,
+   "land_parcel_snap_ids": [
+    "lan-b940e55640afe331"
+   ]
+  },
+  {
+   "permit_number": null,
+   "application_number": "20241718",
+   "status": "under_review",
+   "work_type": "new_construction",
+   "application_date": "2024-12-10",
+   "issue_date": null,
+   "distance_m": 163.5,
+   "authorized_units": 17,
+   "land_parcel_snap_ids": [
+    "lan-78870ee1a46a0f26"
+   ]
+  }
+ ],
+ "transactions": [
+  {
+   "land_parcel_snap_id": "lan-1c91c48398c58aad",
+   "deal_date": "2021-11-14",
+   "deal_amount": 20960000,
+   "asset_area_sqm": 1000
+  },
+  {
+   "land_parcel_snap_id": "lan-1c91c48398c58aad",
+   "deal_date": "2022-04-14",
+   "deal_amount": 5390000,
+   "asset_area_sqm": 88
+  },
+  {
+   "land_parcel_snap_id": "lan-1c91c48398c58aad",
+   "deal_date": "2022-10-20",
+   "deal_amount": 6700000,
+   "asset_area_sqm": 103
+  },
+  {
+   "land_parcel_snap_id": "lan-1c91c48398c58aad",
+   "deal_date": "2024-06-04",
+   "deal_amount": 4840000,
+   "asset_area_sqm": 71
+  },
+  {
+   "land_parcel_snap_id": "lan-6a9123722bcd5402",
+   "deal_date": "2024-06-03",
+   "deal_amount": 3200000,
+   "asset_area_sqm": 58
+  },
+  {
+   "land_parcel_snap_id": "lan-6a9123722bcd5402",
+   "deal_date": "2024-06-02",
+   "deal_amount": 3200000,
+   "asset_area_sqm": 58
+  },
+  {
+   "land_parcel_snap_id": "lan-6a9123722bcd5402",
+   "deal_date": "2024-05-28",
+   "deal_amount": 2900000,
+   "asset_area_sqm": 50
+  },
+  {
+   "land_parcel_snap_id": "lan-6a9123722bcd5402",
+   "deal_date": "2024-08-04",
+   "deal_amount": 6930000,
+   "asset_area_sqm": 92
+  }
+ ],
+ "buildings": [
+  {
+   "land_parcel_snap_id": "lan-1c91c48398c58aad",
+   "floors_above_ground": 7,
+   "height_m": 17.73,
+   "year_built": 2024
+  }
+ ]
+}
