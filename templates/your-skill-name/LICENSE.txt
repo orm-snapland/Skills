@@ -1,0 +1,5 @@
+Copyright (c) 2026 Snapland. All rights reserved.
+
+This skill is proprietary to Snapland. The repository root LICENSE.txt
+is the full notice. Do not publish this folder outside Snapland's
+Claude surfaces without permission.

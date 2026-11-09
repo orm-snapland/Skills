@@ -1,0 +1,12 @@
+{
+  "skill_name": "valid-skill",
+  "evals": [
+    {
+      "id": "echo",
+      "prompt": "Run the fixture echo.",
+      "expected_output": "JSON with a message field.",
+      "files": [],
+      "assertions": []
+    }
+  ]
+}

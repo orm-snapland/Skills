@@ -1,0 +1,31 @@
+# Packaged skills (regenerate with tooling/package_skill.py)
+dist/
+*.skill
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Secrets — never commit
+.env
+.env.*
+*.pem
+credentials.json
+secrets.json

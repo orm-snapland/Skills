@@ -1,0 +1,11 @@
+{
+  "skill_name": "your-skill-name",
+  "note": "Aim for about 20 queries: 8-10 should trigger, 8-10 should not. Negatives must be near-misses (sibling skills), not unrelated chatter. Split roughly 60% train / 40% validation. Do not paste failed-query keywords straight into the description.",
+  "should_trigger": [
+    "A specialized, multi-step request that names the domain nouns this skill owns.",
+    "ניסוח עברי יומיומי שאמור להפעיל את ה-Skill גם בלי שם ה-Skill."
+  ],
+  "should_not_trigger": [
+    "A near-miss that a different Snapland skill should handle."
+  ]
+}
