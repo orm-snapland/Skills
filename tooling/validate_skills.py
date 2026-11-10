@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Validate Snapland skill folders against the Agent Skills upload rules.
 
-With no arguments, checks every skill under skills/ and the template at
-templates/your-skill-name/. Pass directories to validate those instead.
+With no arguments, checks every skill in the repo's areas (01-…, 02-…, 03-…
+and shared/) plus the template at templates/your-skill-name/. Pass directories
+to validate those instead.
 
 Exit status is 0 when every skill has no errors. Line-count and description
 style problems are warnings unless --strict is set.
@@ -46,7 +47,7 @@ def main(argv: list[str] | None = None) -> int:
         "paths",
         nargs="*",
         type=Path,
-        help="Skill directories, or parents such as skills/. Default: skills/ plus the template.",
+        help="Skill directories, or an area such as 01-feasibility-report/. Default: every area plus the template.",
     )
     parser.add_argument(
         "--strict",
@@ -74,7 +75,10 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     if not targets:
-        print("No skill folders found. Add skills/<name>/SKILL.md, or pass a path.")
+        print(
+            "No skill folders found. Add <NN>-<type>/<name>/SKILL.md "
+            "or shared/<name>/SKILL.md, or pass a path."
+        )
         return 0
 
     if not skillslib.pyyaml_available():

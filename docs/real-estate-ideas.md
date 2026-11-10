@@ -25,6 +25,7 @@ snapland-skills/
 └── evals/                       # optional central trigger-eval sets (per-skill evals/ also fine)
 ```
 Notes:
+- This repo went a different way: skills are grouped by the kind of work they do (`01-feasibility-report/`, `02-existing-state/`, `03-market-survey/`) with `shared/` for skills other skills depend on, and there is no flat `skills/` folder. See the root README.
 - Claude Code supports symlinked skill folders in personal and project locations [CC]. Plugins handle symlinks differently.
 - `ant apply` records skill IDs in `claude-lock.json`. Commit it so later runs upload new *versions* instead of new skills [Managed Agents skills doc].
 - **Multi-tenant:** if Snapland uploads customer-specific skills via the API, use **one workspace per tenant**. Skills are workspace-wide, and any key in that workspace can read, invoke, or delete them [API].

@@ -29,3 +29,6 @@ desktop.ini
 *.pem
 credentials.json
 secrets.json
+
+# Workspaces של ריצות סקילים
+*-workspace/

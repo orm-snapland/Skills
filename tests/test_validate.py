@@ -41,23 +41,70 @@ class ValidateSkillTests(unittest.TestCase):
         packaged = (TEMPLATE / "SKILL.md").read_text(encoding="utf-8")
         self.assertEqual(canonical, packaged)
 
-    def test_hebrew_trigger_required_under_skills(self) -> None:
+    def test_hebrew_trigger_required_inside_an_area(self) -> None:
         report = skillslib.validate_skill(FIXTURE, expect_hebrew=True)
         self.assertTrue(report.ok, skillslib.format_report(report))
         self.assertEqual(report.warnings, [])
 
-    def test_expect_hebrew_only_for_skills_tree(self) -> None:
+    def test_expect_hebrew_only_inside_an_area(self) -> None:
         import tempfile
 
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
-            inside = root / "skills" / "valid-skill"
+            typed = root / "01-feasibility-report" / "valid-skill"
+            shared = root / "shared" / "valid-skill"
             outside = root / "templates" / "valid-skill"
-            inside.mkdir(parents=True)
-            outside.mkdir(parents=True)
-            self.assertTrue(skillslib.expect_hebrew_for(inside, root))
+            for path in (typed, shared, outside):
+                path.mkdir(parents=True)
+            self.assertTrue(skillslib.expect_hebrew_for(typed, root))
+            self.assertTrue(skillslib.expect_hebrew_for(shared, root))
             self.assertFalse(skillslib.expect_hebrew_for(outside, root))
             self.assertFalse(skillslib.expect_hebrew_for(TEMPLATE, ROOT))
+
+    def test_areas_are_the_numbered_folders_and_shared(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            for name in ("01-feasibility-report", "shared", "docs", "tooling"):
+                (root / name).mkdir()
+            _write_skill(
+                root / "01-feasibility-report" / "a-skill",
+                """
+                name: a-skill
+                description: Checks a parcel. השתמש בסקיל הזה כשמבקשים בדיקה. Do NOT use for pricing.
+                """,
+            )
+            (root / "docs" / "not-a-skill").mkdir()
+            self.assertEqual(
+                [area.name for area in skillslib.skill_areas(root)],
+                ["01-feasibility-report", "shared"],
+            )
+            self.assertEqual(
+                [skill.name for skill in skillslib.iter_repo_skills(root)],
+                ["a-skill"],
+            )
+            self.assertEqual(
+                [skill.name for skill in skillslib.find_skill("a-skill", root)],
+                ["a-skill"],
+            )
+
+    def test_hebrew_use_when_clause_is_accepted(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            skill = _write_skill(
+                Path(raw) / "hebrew-clauses",
+                """
+                name: hebrew-clauses
+                description: מודד דירות מתוך היתר בנייה ומחזיר פוליגונים. השתמש בסקיל הזה כשמבקשים מדידת היתר או שטחי שירות. אל תפעיל אותו על תשריט שאינו היתר.
+                metadata:
+                  version: "0.1.0"
+                """,
+            )
+            report = skillslib.validate_skill(skill, expect_hebrew=True)
+            self.assertTrue(report.ok, skillslib.format_report(report))
+            self.assertEqual(report.warnings, [])
 
     def test_missing_hebrew_warns_when_requested(self) -> None:
         import tempfile
@@ -412,13 +459,14 @@ class ValidateSkillTests(unittest.TestCase):
         self.assertIn("OK", completed.stdout)
         self.assertIn("your-skill-name", completed.stdout)
 
-    def test_empty_skills_dir_message(self) -> None:
+    def test_empty_area_message(self) -> None:
         import tempfile
 
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
-            (root / "skills").mkdir()
-            code = validate_skills.main(["--repo-root", str(root), str(root / "skills")])
+            area = root / "01-feasibility-report"
+            area.mkdir()
+            code = validate_skills.main(["--repo-root", str(root), str(area)])
             self.assertEqual(code, 0)
 
 

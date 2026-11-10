@@ -1,0 +1,49 @@
+{
+ "note": "Validated against the client Excel (Sanhedrin 7 report, 06.10.2026).",
+ "inputs": {
+  "sellable": 2609,
+  "owners_units": 16,
+  "exist_net": 59,
+  "price": 67271,
+  "cost_ag": 11100,
+  "cost_base": 4400,
+  "rent": 7500,
+  "months": 41,
+  "lot": 765,
+  "svc": 0.12567,
+  "demolish_sqm": 1004,
+  "new_unit": 95
+ },
+ "mix_sellable": 2690,
+ "expected": {
+  "total": 62920000.0,
+  "margin": 0.1461,
+  "surplus": -3390000.0,
+  "be_price": 70569,
+  "comb": 0.515,
+  "grid": [
+   [
+    8.8,
+    3.5,
+    -1.7
+   ],
+   [
+    1.9,
+    -3.4,
+    -8.6
+   ],
+   [
+    -5.1,
+    -10.3,
+    -15.5
+   ]
+  ],
+  "mix": {
+   "total": 64700000.0,
+   "margin": 0.187,
+   "surplus": -900000.0,
+   "comb": 0.5
+  },
+  "decision": "גבולי"
+ }
+}

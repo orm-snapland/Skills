@@ -4,17 +4,34 @@
 
 המדריך המלא (פורמט, frontmatter, progressive disclosure, בדיקות, הפצה, אבטחה) נמצא ב-[docs/anthropic-skills-guide.md](docs/anthropic-skills-guide.md). רעיונות למבנה Skills בתחום הנדל"ן, כהצעות בלבד, נמצאים ב-[docs/real-estate-ideas.md](docs/real-estate-ideas.md). המקורות כתובים ב-[docs/sources.md](docs/sources.md).
 
-אין עדיין Skills של מוצר. `skills/` ריק בכוונה. דוגמאות לבדיקת הכלים יושבות תחת `tests/`, לא תחת `skills/`.
+הסקילים מסודרים לפי סוג העבודה. בכל תיקיית סוג יושבים הסקילים שלה, ו-`shared/` מחזיק ידע שכמה סקילים קוראים.
+
+| סוג | תיקייה | סקיל | מה הוא עושה |
+|---|---|---|---|
+| 1 · דוח כדאיות | `01-feasibility-report/` | `go-no-go-v3` · `planning-check` | Go / גבולי / No-Go ודוח חלופות, לכל שימוש וסוג עסקה · בדיקה תכנונית (4 מקורות, תקדימים) כסקיל עצמאי |
+| 2 · בדיקת מצב קיים | `02-existing-state/` | `permit-measurement` | מדידת היתר: פוליגונים לדירות, משותף ומרפסות → PDF + אקסל |
+| 3 · סקר שוק | `03-market-survey/` | עוד לא נבנה | — |
+| משותף | `shared/` | `israel-massing-rules` | חוקי הבינוי. דוח הכדאיות (שלב החלופות) קורא אותם |
+
+תלויות: `go-no-go-v3` דורש את `israel-massing-rules` מותקן לצדו ואת ה-MCP של Snapland ישראל. `planning-check` דורש את אותו MCP, עומד בפני עצמו וגם משמש קלט לדוח הכדאיות. `permit-measurement` עובד עצמאית מעל Python, shapely, openpyxl ו-playwright.
+
+אין תיקיית `skills/` כללית: כל סקיל יושב בתיקיית הסוג שלו. דוגמאות לבדיקת הכלים יושבות תחת `tests/`.
 
 ## מבנה
 
 ```
-skills/<kebab-case-name>/   # Skill אחד. מתחילים מ-README שמסביר איך להוסיף
-  SKILL.md                   # חובה: frontmatter + הוראות
-  scripts/                   # אופציונלי. מריצים, לא קוראים, אלא אם כתוב אחרת
-  references/                # אופציונלי. נטען רק כשמפנים אליו
-  assets/                    # אופציונלי. תבניות וקבצי עזר
-  evals/                     # בדיקות. לא נכנס ל-ZIP
+01-feasibility-report/       # תיקיית סוג. README קצר + הסקילים שלה
+  README.md
+  <skill-name>/              # סקיל אחד
+    SKILL.md                 # חובה: frontmatter + הוראות
+    scripts/                 # אופציונלי. מריצים, לא קוראים, אלא אם כתוב אחרת
+    references/              # אופציונלי. נטען רק כשמפנים אליו
+    assets/                  # אופציונלי. תבניות וקבצי עזר
+    stages/                  # אופציונלי. סקיל רב-שלבי
+    evals/                   # בדיקות. לא נכנס ל-ZIP
+02-existing-state/           # תיקיית סוג
+03-market-survey/            # תיקיית סוג. עוד בלי סקיל
+shared/<skill-name>/         # סקיל שסקילים אחרים תלויים בו
 docs/                        # המדריך, רעיונות, מקורות
 templates/                   # תבנית SKILL.md + תיקיית your-skill-name/
 tooling/                     # ולידטור ואורז
@@ -27,8 +44,11 @@ dist/                        # ZIP שנוצרים מקומית. לא נכנס ל
 ## יצירת Skill חדש
 
 ```bash
-cp -R templates/your-skill-name skills/<שם>
+cp -R templates/your-skill-name <NN>-<type>/<שם>      # למשל 02-existing-state/tabu-reading
+cp -R templates/your-skill-name shared/<שם>           # רק אם סקילים אחרים יקראו לו
 ```
+
+בוחרים תיקיית סוג לפי העבודה שהסקיל עושה, לא לפי הלקוח. סוג חדש מקבל מספר רץ (`04-…`) ו-README קצר; הולידטור והאורז מזהים אותו לבד.
 
 אחר כך:
 
@@ -116,15 +136,16 @@ Agent SDK טוען Skills ממערכת הקבצים (`~/.claude/skills` ו-`.cla
 
 ```bash
 python -m pip install -r tooling/requirements.txt
-python tooling/validate_skills.py                  # skills/ + התבנית
-python tooling/validate_skills.py skills/<name>    # Skill אחד
+python tooling/validate_skills.py                             # כל תיקיות הסוג, shared/ והתבנית
+python tooling/validate_skills.py 01-feasibility-report       # סוג אחד
+python tooling/validate_skills.py shared/israel-massing-rules # Skill אחד
 python tooling/validate_skills.py --strict         # גם אזהרות נכשלות
-python tooling/package_skill.py <name>             # dist/<name>.zip
+python tooling/package_skill.py <name>             # dist/<name>.zip. מחפש בכל תיקיות הסוג
 python tooling/package_skill.py all
 python tooling/package_skill.py --path templates/your-skill-name
 ```
 
-הולידטור בודק: frontmatter קיים וניתן לפענוח ומתחיל בשורה 1; רק השדות המותרים להעלאה (אלא אם יש `CLAUDE-CODE-ONLY`); כללי `name` והתאמה לתיקייה; אורך התיאור ובלי סוגריים משולשים; `metadata.version` ב-semver. אזהרות: מעל 500 שורות, תיאור בלי `Use when` / `Do NOT use` / גוף שלישי, ותיאור בלי עברית ל-Skill תחת `skills/`.
+הולידטור בודק: frontmatter קיים וניתן לפענוח ומתחיל בשורה 1; רק השדות המותרים להעלאה (אלא אם יש `CLAUDE-CODE-ONLY`); כללי `name` והתאמה לתיקייה; אורך התיאור ובלי סוגריים משולשים; `metadata.version` ב-semver. אזהרות: מעל 500 שורות, תיאור בלי `Use when` / `השתמש בסקיל הזה כש…`, בלי `Do NOT use` / `אל תפעיל כש…`, תיאור בגוף ראשון, ותיאור בלי עברית ל-Skill שיושב בתיקיית סוג או ב-`shared/`.
 
 האורז רץ אחרי ולידציה. הוא משמיט `evals/` בשורש ה-Skill, `__pycache__`, `node_modules`, `*.pyc`, `.DS_Store`, `.gitkeep` ואת קובץ הסימון `CLAUDE-CODE-ONLY`.
 
@@ -154,21 +175,31 @@ Home of Snapland's custom Claude Agent Skills. Snapland builds real-estate bots 
 
 The full authoring guide is [docs/anthropic-skills-guide.md](docs/anthropic-skills-guide.md). Suggested real-estate skill shapes (not Anthropic guidance, and not skills to build until someone asks) are in [docs/real-estate-ideas.md](docs/real-estate-ideas.md). Source URLs are in [docs/sources.md](docs/sources.md).
 
-`skills/` starts empty apart from its README. Tooling fixtures live under `tests/`.
+Skills are grouped by the kind of work they do, with `shared/` for skills other skills depend on. Tooling fixtures live under `tests/`.
+
+| Type | Folder | Skills | What they do |
+|---|---|---|---|
+| 1 · Feasibility report | `01-feasibility-report/` | `go-no-go-v3` · `planning-check` | Go / borderline / No-Go plus the alternatives report, for every use and deal type · the planning check (4 sources, precedents) as a skill of its own |
+| 2 · Existing state | `02-existing-state/` | `permit-measurement` | Measures a building permit: per-apartment, shared-space and balcony polygons → PDF + Excel |
+| 3 · Market survey | `03-market-survey/` | not built yet | — |
+| Shared | `shared/` | `israel-massing-rules` | Massing rules. The feasibility report reads them in its alternatives stage |
+
+`go-no-go-v3` needs `israel-massing-rules` installed beside it and the Snapland Israel MCP. `planning-check` needs that MCP, stands alone, and also feeds the feasibility report. `permit-measurement` is self-contained on Python, shapely, openpyxl and playwright.
 
 ## Layout
 
-One folder per skill: `skills/<kebab-case-name>/` with a required `SKILL.md` and optional `scripts/`, `references/`, `assets/`, and `evals/`. Also `docs/`, `templates/`, and `tooling/`. Packaged zips go to `dist/` and are gitignored.
+One folder per skill, inside its type folder: `<NN>-<type>/<kebab-case-name>/`, or `shared/<kebab-case-name>/` for a dependency. Each holds a required `SKILL.md` and optional `scripts/`, `references/`, `assets/`, `stages/`, and `evals/`. Also `docs/`, `templates/`, and `tooling/`. Packaged zips go to `dist/` and are gitignored.
 
 Claude always sees `name` and `description` (~100 tokens per skill). It reads the `SKILL.md` body when the skill triggers, and other files only when the instructions say to. The description carries triggering. The body stays short.
 
 ## Create a skill
 
 ```bash
-cp -R templates/your-skill-name skills/<kebab-case-name>
+cp -R templates/your-skill-name <NN>-<type>/<kebab-case-name>
+cp -R templates/your-skill-name shared/<kebab-case-name>     # only if other skills will read it
 ```
 
-Rename the folder and set `name` to the same value. Delete the HTML comment at the top of the body. `templates/SKILL.template.md` and `templates/your-skill-name/SKILL.md` are the same file; copy the folder so `evals/` and `LICENSE.txt` come with it.
+Pick the type folder by the work the skill does, not by the client. A new type gets the next number (`04-…`) and a short README; the validator and packager pick it up on their own. Rename the folder and set `name` to the same value. Delete the HTML comment at the top of the body. `templates/SKILL.template.md` and `templates/your-skill-name/SKILL.md` are the same file; copy the folder so `evals/` and `LICENSE.txt` come with it.
 
 Agents working in this repo should follow [CLAUDE.md](CLAUDE.md) (and [AGENTS.md](AGENTS.md)).
 
@@ -236,15 +267,16 @@ One pinned dependency: `PyYAML==6.0.2`.
 
 ```bash
 python -m pip install -r tooling/requirements.txt
-python tooling/validate_skills.py                  # skills/ and the template
-python tooling/validate_skills.py skills/<name>
+python tooling/validate_skills.py                             # every type folder, shared/, and the template
+python tooling/validate_skills.py 01-feasibility-report       # one type
+python tooling/validate_skills.py shared/israel-massing-rules # one skill
 python tooling/validate_skills.py --strict         # warnings fail the run
-python tooling/package_skill.py <name>             # writes dist/<name>.zip
+python tooling/package_skill.py <name>             # writes dist/<name>.zip. Looks the name up in every type folder
 python tooling/package_skill.py all
 python tooling/package_skill.py --path templates/your-skill-name
 ```
 
-The validator checks that frontmatter exists, parses, and starts on line 1; that only upload-safe fields are present unless the skill is marked Claude Code-only; that `name` follows the rules and matches the folder; that `description` is within 1024 characters and has no angle brackets; and that `metadata.version` is semver. Warnings cover a `SKILL.md` over 500 lines, a description missing `Use when`, `Do NOT use`, or third person, and a skill under `skills/` whose description has no Hebrew.
+The validator checks that frontmatter exists, parses, and starts on line 1; that only upload-safe fields are present unless the skill is marked Claude Code-only; that `name` follows the rules and matches the folder; that `description` is within 1024 characters and has no angle brackets; and that `metadata.version` is semver. Warnings cover a `SKILL.md` over 500 lines, a description missing `Use when` / `השתמש בסקיל הזה כש…`, missing `Do NOT use` / `אל תפעיל כש…`, or written in the first person, and a skill in a type folder or `shared/` whose description has no Hebrew.
 
 The packager validates first. It omits root-level `evals/`, `__pycache__`, `node_modules`, `*.pyc`, `.DS_Store`, `.gitkeep`, and the `CLAUDE-CODE-ONLY` marker.
 

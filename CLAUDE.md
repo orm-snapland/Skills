@@ -2,20 +2,24 @@
 
 This repository is the source of truth for Snapland's custom Agent Skills (real-estate bots, Israel). Skills do not sync across claude.ai, Claude Code, and the API, so Git is canonical. The researched spec is `docs/anthropic-skills-guide.md`. Domain sketches in `docs/real-estate-ideas.md` are suggestions, not skills to implement unless asked. Legal and tax figures stay out of skill bodies until someone verifies them.
 
-`skills/` is for portable skills only. Do not add a production skill that nobody asked for. Put validator fixtures in `tests/fixtures/`.
+Skills are grouped by the kind of work they do: `01-feasibility-report/` (`go-no-go-v3`, `planning-check`), `02-existing-state/` (`permit-measurement`), `03-market-survey/` (empty), and `shared/` for skills other skills depend on (`israel-massing-rules`). There is no catch-all `skills/` folder. Only portable skills belong in those folders. Do not add a production skill that nobody asked for. Put validator fixtures in `tests/fixtures/`.
 
 ## Layout
 
 ```
-skills/<kebab-case-name>/
-  SKILL.md          # required
-  scripts/          # run, don't read, unless the skill says otherwise
-  references/       # one level deep from SKILL.md
-  assets/
-  evals/            # not uploaded; evals.json + triggers.json
+<NN>-<type>/            # 01-feasibility-report, 02-existing-state, 03-market-survey
+  README.md             # what the type covers and what is planned
+  <kebab-case-name>/
+    SKILL.md            # required
+    scripts/            # run, don't read, unless the skill says otherwise
+    references/         # one level deep from SKILL.md
+    assets/
+    stages/             # optional, for a multi-stage skill
+    evals/              # not uploaded; evals.json + triggers.json
+shared/<kebab-case-name>/   # a skill other skills depend on
 ```
 
-Copy `templates/your-skill-name/` (same text as `templates/SKILL.template.md`) and rename it. Delete the HTML comment in `SKILL.md` before shipping.
+Copy `templates/your-skill-name/` (same text as `templates/SKILL.template.md`) into the type folder that matches the work, and rename it. A new type gets the next number and a short README; `tooling/` discovers `NN-*` and `shared/` automatically. Delete the HTML comment in `SKILL.md` before shipping.
 
 ## Frontmatter
 
@@ -43,7 +47,7 @@ Side effects (send a message, book a showing, write the CRM) are enforced in app
 1. Run the task without the skill and write down the failures.
 2. Add at least three evals in `evals/evals.json` (happy path, messy Hebrew input, edge case), each with and without the skill, in a fresh session.
 3. Add trigger queries in `evals/triggers.json`: should-trigger and near-miss should-not-trigger. Do not paste failed queries verbatim into the description.
-4. Check coexistence with the other skills in `skills/`.
+4. Check coexistence with every other Snapland skill, across all type folders — `go-no-go-v3` and `planning-check` are the pair most likely to steal each other's triggers.
 
 `evals/` is omitted from the zip.
 
@@ -55,10 +59,11 @@ python tooling/validate_skills.py
 python tooling/package_skill.py <skill-name>
 ```
 
-Warnings (line count, missing "Use when", missing Hebrew under `skills/`) fail the check only with `--strict`. Errors always fail.
+Warnings (line count, a description with no "Use when" / "השתמש בסקיל הזה כש…" clause, no Hebrew in a skill that ships from a type folder or `shared/`) fail the check only with `--strict`. Errors always fail.
 
 ## Checklist
 
+- [ ] The skill sits in the right type folder, or in `shared/` if other skills read it
 - [ ] `name` matches the folder and the character rules
 - [ ] `description` ≤ 1024, third person, Hebrew triggers, `Use when…`, `Do NOT use for…`, no `<>`
 - [ ] Only the six spec fields, or a `CLAUDE-CODE-ONLY` marker

@@ -65,6 +65,31 @@ FIRST_PERSON_RE = re.compile(
     r"(?i)^\s*(i['’]?m\b|i can\b|i will\b|i help\b|you can\b|you should\b|אני\b|אתה יכול|את יכולה)"
 )
 
+# Snapland layout: every skill sits in a numbered type folder (01-…, 02-…),
+# or in shared/ when other skills depend on it.
+AREA_RE = re.compile(r"^\d{2}-[a-z0-9][a-z0-9-]*$")
+SHARED_AREA = "shared"
+
+# The team writes descriptions in Hebrew, so the English clauses are not
+# required: these are the phrasings that carry the same job.
+USE_WHEN_MARKERS = (
+    "use when",
+    "השתמש בסקיל",
+    "השתמש ב-skill",
+    "השתמש בכלי",
+    "השתמשו בסקיל",
+    "יש להשתמש",
+    "מפעילים כש",
+)
+DO_NOT_USE_MARKERS = (
+    "do not use",
+    "אל תפעיל",
+    "אל תשתמש",
+    "אין להשתמש",
+    "לא להשתמש",
+    "לא מפעילים",
+)
+
 # Root-level names omitted from claude.ai zips. `evals/` holds test prompts and
 # must not ship. The marker file is repo metadata, not skill content.
 EXCLUDED_ROOT_DIRS = frozenset({"evals"})
@@ -125,10 +150,37 @@ def iter_skill_dirs(parent: Path) -> list[Path]:
     )
 
 
-def default_targets(root: Path | None = None) -> list[Path]:
-    """Skills under skills/, plus the checked-in template folder."""
+def skill_areas(root: Path | None = None) -> list[Path]:
+    """Top-level folders that hold skills: the numbered types, plus shared/."""
     root = root or repo_root()
-    targets = iter_skill_dirs(root / "skills")
+    if not root.is_dir():
+        return []
+    return sorted(
+        child
+        for child in root.iterdir()
+        if child.is_dir() and (AREA_RE.match(child.name) or child.name == SHARED_AREA)
+    )
+
+
+def iter_repo_skills(root: Path | None = None) -> list[Path]:
+    """Every skill folder in the repo, area by area."""
+    return [
+        skill
+        for area in skill_areas(root)
+        for skill in iter_skill_dirs(area)
+        if (skill / "SKILL.md").is_file()
+    ]
+
+
+def find_skill(name: str, root: Path | None = None) -> list[Path]:
+    """Skill folders called `name`. More than one means the name is ambiguous."""
+    return [skill for skill in iter_repo_skills(root) if skill.name == name]
+
+
+def default_targets(root: Path | None = None) -> list[Path]:
+    """Every skill in the repo's areas, plus the checked-in template folder."""
+    root = root or repo_root()
+    targets = iter_repo_skills(root)
     template = root / "templates" / "your-skill-name"
     if (template / "SKILL.md").is_file():
         targets.append(template)
@@ -265,17 +317,17 @@ def _check_description(
             "'description' must not contain '<' or '>' (XML tags are rejected on upload).",
         )
     lowered = description.lower()
-    if "use when" not in lowered:
+    if not any(marker in lowered for marker in USE_WHEN_MARKERS):
         _add(
             report,
             "warning",
-            "Description should include a 'Use when…' clause with the phrasings that should trigger the skill.",
+            "Description should include a 'Use when…' / 'השתמש בסקיל הזה כש…' clause with the phrasings that should trigger the skill.",
         )
-    if "do not use" not in lowered:
+    if not any(marker in lowered for marker in DO_NOT_USE_MARKERS):
         _add(
             report,
             "warning",
-            "Description should include a 'Do NOT use for…' boundary so this skill does not steal sibling triggers.",
+            "Description should include a 'Do NOT use for…' / 'אל תפעיל כש…' boundary so this skill does not steal sibling triggers.",
         )
     if FIRST_PERSON_RE.search(description):
         _add(
@@ -430,13 +482,13 @@ def validate_skill(skill_dir: Path, *, expect_hebrew: bool = False) -> SkillRepo
 
 
 def expect_hebrew_for(skill_dir: Path, root: Path | None = None) -> bool:
-    """Hebrew trigger phrases are required for skills shipped from skills/."""
+    """Hebrew trigger phrases are required for skills shipped from an area."""
     root = (root or repo_root()).resolve()
-    try:
-        skill_dir.resolve().relative_to(root / "skills")
-    except ValueError:
-        return False
-    return True
+    resolved = skill_dir.resolve()
+    for area in skill_areas(root):
+        if _is_inside(resolved, area.resolve()):
+            return True
+    return False
 
 
 def format_report(report: SkillReport) -> str:

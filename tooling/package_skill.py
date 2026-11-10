@@ -37,21 +37,36 @@ def _skills_to_package(args: argparse.Namespace) -> list[Path]:
             paths.append(path)
         return paths
 
-    skills_dir = args.skills_dir
-    if not skills_dir.is_absolute():
-        skills_dir = Path.cwd() / skills_dir
+    if args.skills_dir is not None:
+        skills_dir = args.skills_dir
+        if not skills_dir.is_absolute():
+            skills_dir = Path.cwd() / skills_dir
+        if args.skill == "all":
+            return [
+                path
+                for path in skillslib.iter_skill_dirs(skills_dir)
+                if (path / "SKILL.md").is_file()
+            ]
+        candidate = skills_dir / args.skill
+        if not (candidate / "SKILL.md").is_file():
+            raise _UsageError(f"No skill named '{args.skill}' under {skills_dir}")
+        return [candidate]
 
     if args.skill == "all":
-        return [
-            path
-            for path in skillslib.iter_skill_dirs(skills_dir)
-            if (path / "SKILL.md").is_file()
-        ]
+        return skillslib.iter_repo_skills()
 
-    candidate = skills_dir / args.skill
-    if not (candidate / "SKILL.md").is_file():
-        raise _UsageError(f"No skill named '{args.skill}' under {skills_dir}")
-    return [candidate]
+    matches = skillslib.find_skill(args.skill)
+    if not matches:
+        areas = ", ".join(area.name for area in skillslib.skill_areas()) or "none"
+        raise _UsageError(
+            f"No skill named '{args.skill}'. Areas searched: {areas}."
+        )
+    if len(matches) > 1:
+        listed = ", ".join(str(match.relative_to(skillslib.repo_root())) for match in matches)
+        raise _UsageError(
+            f"'{args.skill}' exists in more than one area ({listed}). Pass --path."
+        )
+    return matches
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -60,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
         "skill",
         nargs="?",
         default="all",
-        help="Skill folder name under --skills-dir, or 'all' (default).",
+        help="Skill folder name, looked up across every area, or 'all' (default).",
     )
     parser.add_argument(
         "--path",
@@ -71,8 +86,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--skills-dir",
         type=Path,
-        default=skillslib.repo_root() / "skills",
-        help="Directory that contains skill folders (default: skills/).",
+        default=None,
+        help="Look the name up in this directory instead of searching every area.",
     )
     parser.add_argument(
         "--dist",
@@ -101,7 +116,8 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     if not targets:
-        print(f"No skills to package under {args.skills_dir}.")
+        where = args.skills_dir or "the repo's areas"
+        print(f"No skills to package under {where}.")
         return 0
 
     dist = args.dist if args.dist.is_absolute() else Path.cwd() / args.dist

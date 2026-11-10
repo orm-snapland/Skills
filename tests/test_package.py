@@ -96,7 +96,7 @@ class PackageTests(unittest.TestCase):
                 skillslib.package_skill(skill, dist)
             self.assertFalse(dist.exists())
 
-    def test_cli_packages_template_and_empty_skills_dir(self) -> None:
+    def test_cli_packages_template_by_path(self) -> None:
         import tempfile
 
         with tempfile.TemporaryDirectory() as raw:
