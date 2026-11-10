@@ -10,6 +10,12 @@ Repo history. Each skill's package version is `metadata.version` inside that ski
 | --- | --- | --- | --- | --- |
 | _none yet_ | | | | |
 
+## 0.3.0 — 2026-11-10
+
+- Split the existing-state check out of `go-no-go-v3` (stage 1, step 6) into `02-existing-state/existing-state-check` 1.0.0: buildings, units, gross, stair core, average net size and the existing coefficient from Snapland data, checked against the Tabu median and the permit, with a Hebrew PDF, `existing.json` and `existing_for_gng.json`.
+- It reads a `permit-measurement` result through `measurement` and then reports certainty 3 instead of 2; without one it stays at 2.
+- `go-no-go-v3` 3.1.0: stage 1 step 6 now reads `existing_for_gng.json` when the standalone check has run, instead of recomputing.
+
 ## 0.2.0 — 2026-11-10
 
 - Added the production skills, grouped by the kind of work they do: `01-feasibility-report/` (`go-no-go-v3`, `planning-check`), `02-existing-state/` (`permit-measurement`), `03-market-survey/` (a placeholder README), and `shared/israel-massing-rules`.

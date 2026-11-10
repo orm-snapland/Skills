@@ -2,7 +2,7 @@
 
 This repository is the source of truth for Snapland's custom Agent Skills (real-estate bots, Israel). Skills do not sync across claude.ai, Claude Code, and the API, so Git is canonical. The researched spec is `docs/anthropic-skills-guide.md`. Domain sketches in `docs/real-estate-ideas.md` are suggestions, not skills to implement unless asked. Legal and tax figures stay out of skill bodies until someone verifies them.
 
-Skills are grouped by the kind of work they do: `01-feasibility-report/` (`go-no-go-v3`, `planning-check`), `02-existing-state/` (`permit-measurement`), `03-market-survey/` (empty), and `shared/` for skills other skills depend on (`israel-massing-rules`). There is no catch-all `skills/` folder. Only portable skills belong in those folders. Do not add a production skill that nobody asked for. Put validator fixtures in `tests/fixtures/`.
+Skills are grouped by the kind of work they do: `01-feasibility-report/` (`go-no-go-v3`, `planning-check`), `02-existing-state/` (`existing-state-check`, `permit-measurement`), `03-market-survey/` (empty), and `shared/` for skills other skills depend on (`israel-massing-rules`). There is no catch-all `skills/` folder. Only portable skills belong in those folders. Do not add a production skill that nobody asked for. Put validator fixtures in `tests/fixtures/`.
 
 ## Layout
 

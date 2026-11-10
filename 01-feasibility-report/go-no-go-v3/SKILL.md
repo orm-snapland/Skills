@@ -4,7 +4,7 @@ description: תהליך בדיקת כדאיות v3 לנכס בישראל מנת�
 license: Proprietary. LICENSE.txt has complete terms
 metadata:
   author: "snapland"
-  version: "3.0.0"
+  version: "3.1.0"
 ---
 
 # בדיקת כדאיות v3 — סקיל־אם

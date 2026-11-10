@@ -9,11 +9,11 @@
 | סוג | תיקייה | סקיל | מה הוא עושה |
 |---|---|---|---|
 | 1 · דוח כדאיות | `01-feasibility-report/` | `go-no-go-v3` · `planning-check` | Go / גבולי / No-Go ודוח חלופות, לכל שימוש וסוג עסקה · בדיקה תכנונית (4 מקורות, תקדימים) כסקיל עצמאי |
-| 2 · בדיקת מצב קיים | `02-existing-state/` | `permit-measurement` | מדידת היתר: פוליגונים לדירות, משותף ומרפסות → PDF + אקסל |
+| 2 · בדיקת מצב קיים | `02-existing-state/` | `existing-state-check` · `permit-measurement` | מה בנוי היום מנתוני Snapland: יח"ד, ברוטו, גרעין, גודל ממוצע ומקדם קיים (●●○○) · מדידת היתר: פוליגונים לדירות, משותף ומרפסות (●●●○) → PDF + אקסל |
 | 3 · סקר שוק | `03-market-survey/` | עוד לא נבנה | — |
 | משותף | `shared/` | `israel-massing-rules` | חוקי הבינוי. דוח הכדאיות (שלב החלופות) קורא אותם |
 
-תלויות: `go-no-go-v3` דורש את `israel-massing-rules` מותקן לצדו ואת ה-MCP של Snapland ישראל. `planning-check` דורש את אותו MCP, עומד בפני עצמו וגם משמש קלט לדוח הכדאיות. `permit-measurement` עובד עצמאית מעל Python, shapely, openpyxl ו-playwright.
+תלויות: `go-no-go-v3` דורש את `israel-massing-rules` מותקן לצדו ואת ה-MCP של Snapland ישראל. `planning-check` ו-`existing-state-check` דורשים את אותו MCP, עומדים בפני עצמם וגם משמשים קלט לדוח הכדאיות (שלב 1, צעדים 3 ו-6). `permit-measurement` עובד עצמאית מעל Python, shapely, openpyxl ו-playwright, ומזין את `existing-state-check` כשיש תשריט.
 
 אין תיקיית `skills/` כללית: כל סקיל יושב בתיקיית הסוג שלו. דוגמאות לבדיקת הכלים יושבות תחת `tests/`.
 
@@ -180,11 +180,11 @@ Skills are grouped by the kind of work they do, with `shared/` for skills other 
 | Type | Folder | Skills | What they do |
 |---|---|---|---|
 | 1 · Feasibility report | `01-feasibility-report/` | `go-no-go-v3` · `planning-check` | Go / borderline / No-Go plus the alternatives report, for every use and deal type · the planning check (4 sources, precedents) as a skill of its own |
-| 2 · Existing state | `02-existing-state/` | `permit-measurement` | Measures a building permit: per-apartment, shared-space and balcony polygons → PDF + Excel |
+| 2 · Existing state | `02-existing-state/` | `existing-state-check` · `permit-measurement` | What stands there today from Snapland data: units, gross, core, average size and the existing coefficient (●●○○) · measures a building permit into per-apartment, shared-space and balcony polygons (●●●○) → PDF + Excel |
 | 3 · Market survey | `03-market-survey/` | not built yet | — |
 | Shared | `shared/` | `israel-massing-rules` | Massing rules. The feasibility report reads them in its alternatives stage |
 
-`go-no-go-v3` needs `israel-massing-rules` installed beside it and the Snapland Israel MCP. `planning-check` needs that MCP, stands alone, and also feeds the feasibility report. `permit-measurement` is self-contained on Python, shapely, openpyxl and playwright.
+`go-no-go-v3` needs `israel-massing-rules` installed beside it and the Snapland Israel MCP. `planning-check` and `existing-state-check` need that MCP, stand alone, and also feed the feasibility report (stage 1, steps 3 and 6). `permit-measurement` is self-contained on Python, shapely, openpyxl and playwright, and feeds `existing-state-check` when a permit drawing exists.
 
 ## Layout
 

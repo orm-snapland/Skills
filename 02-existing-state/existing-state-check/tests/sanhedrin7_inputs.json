@@ -1,0 +1,20 @@
+{
+ "_note": "סנהדרין 7, תל אביב — אומת מול אקסל המזמין (06.10.2026): ברוטו קיים 1,004 מ\"ר, 16 יח\"ד, נטו ממוצע 59 מ\"ר, שטחי שירות 12.57%, מקדם קיים 1.31.",
+ "lot_area": 765,
+ "tabu_median": 49,
+ "buildings": [
+  {
+   "id": "A",
+   "snap_id": "bui-sanhedrin-7",
+   "footprint_sqm": 251,
+   "floors_above_ground": 4,
+   "residential_floors": 4,
+   "has_pillar_floor": false,
+   "height_m": 11.5,
+   "year_built": 1966,
+   "primary_use": "מגורים",
+   "entrances": 1,
+   "units": 16
+  }
+ ]
+}

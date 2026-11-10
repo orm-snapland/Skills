@@ -47,6 +47,9 @@
 תקרת קומות קיימת → משפט אחד בסעיף 05 שהיא עשויה להגביל, והפניה לדוח החלופות. לא מחשבים אותה כאן.
 
 **6. בניין קיים.** טביעת רגל × קומות מגורים − 15 מ"ר × קומות × כניסות, חלקי יח"ד. בדיקה מול טאבו (+15–20%).
+זה בדיוק מה שעושה הסקיל העצמאי `existing-state-check` (02-existing-state). רץ על הנכס? קוראים את
+`existing_for_gng.json` שלו — `existing_buildings` ו-`rows` לסעיף 03, `rights_rows` לשורות "קיים" ו"מקדם קיים"
+בסעיף 05, ו-`economics.demolish_sqm` למודל — ולא מחשבים פעם שנייה.
 
 **7. כלכלה.** `references/economics.md`. מחיר: `tx_stats_v2` לפי שימוש + `size_adjusted`. מודל: `renewal` / `residual` /
 `combination_breakeven`; `breakeven`, `grid`, `flips`, `decide` — **בלי** `buildable_*`. אקסל: `scripts/build_xlsx.py` **בלי**

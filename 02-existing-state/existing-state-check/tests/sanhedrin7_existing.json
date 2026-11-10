@@ -1,0 +1,51 @@
+{
+ "parcel": {"address": "סנהדרין 7, תל אביב-יפו", "gush": 6106, "helka": 399,
+            "neighborhood": "פלורנטין", "lot_area": 765, "snap_id": "par-6106-399"},
+ "as_of": "10.11.2026",
+ "status": "בנוי",
+ "headline": "מבנה מגורים אחד מ-1966, ארבע קומות על טביעת רגל של 251 מ\"ר: 1,004 מ\"ר ברוטו, 16 יחידות בגודל ממוצע 59 מ\"ר נטו, מקדם קיים 1.31.",
+ "buildings": [
+  {"id": "A", "footprint_sqm": 251.0, "floors_above_ground": 4.0, "residential_floors": 4.0,
+   "entrances": 1.0, "units": 16, "primary_use": "מגורים", "year_built": 1966, "height_m": 11.5,
+   "gross_sqm": 1004.0, "core_sqm": 60.0, "net_sqm": 944.0, "source": "מערכת"}
+ ],
+ "totals": {"lot_area": 765.0, "footprint_sqm": 251.0, "floors": 4.0, "entrances": 1.0,
+            "units": 16.0, "gross_sqm": 1004.0, "core_sqm": 60.0, "net_sqm": 944.0,
+            "avg_net_sqm": 59.0, "service_ratio": 0.0598, "coefficient": 1.31},
+ "rows": [
+  {"label": "טביעת רגל", "value": 251.0, "unit": "מ\"ר", "source": "מערכת",
+   "note": "פוליגון המבנה; לרוב כולל מרפסות"},
+  {"label": "קומות · כניסות", "value": "4 · 1", "unit": "", "source": "מערכת",
+   "note": "אין קומת עמודים; כל ארבע הקומות למגורים"},
+  {"label": "יח\"ד", "value": 16, "unit": "", "source": "מסמך", "note": "נסח רישום"},
+  {"label": "ברוטו בנוי", "value": 1004.0, "unit": "מ\"ר", "source": "חישוב",
+   "note": "טביעת רגל כפול קומות למגורים"},
+  {"label": "שטח שירות (גרעין)", "value": 60.0, "unit": "מ\"ר", "source": "כלל אצבע",
+   "note": "15 מ\"ר לקומה לכל כניסה"},
+  {"label": "גודל ממוצע נטו", "value": 59.0, "unit": "מ\"ר", "source": "חישוב",
+   "note": "ברוטו פחות גרעין, חלקי יח\"ד"},
+  {"label": "סבירות מול טאבו", "value": "17%", "unit": "", "source": "חישוב",
+   "note": "מצופה 15–20%"},
+  {"label": "מדידה", "value": null, "unit": "מ\"ר", "source": "חסר",
+   "note": "אין מדידה; להעלות את ההיתר ולהריץ permit-measurement"}
+ ],
+ "tabu_check": {"tabu_median": 49.0, "gap_pct": 16.95, "expected_pct": "15–20"},
+ "permit": {"permit_number": "1966/413", "year": 1966, "authorized_units": 16,
+            "authorized_floors": 4, "authorized_area_sqm": 1004, "source": "מערכת"},
+ "built_vs_permit": "הבנוי תואם את ההיתר בקומות וביחידות. סגירות מרפסות והרחבות מאוחרות אינן מופיעות בהיתר ולא נבדקו בשטח.",
+ "measurement": null,
+ "certainty": 2,
+ "missing": [
+  {"item": "מדידה מתשריט היתר", "why": "מעלה את רמת הדיוק משתי נקודות לשלוש",
+   "how": "להעלות את ההיתר ולהריץ את הסקיל permit-measurement"}
+ ],
+ "flags": [
+  "טביעת הרגל מהפוליגון כוללת בדרך כלל מרפסות — הברוטו עשוי להיות גבוה ב-3–6% מהבנוי הסגור",
+  "נסח טאבו נמוך ב-15–20% מהמציאות; הפער כאן 17% ולכן סביר"
+ ],
+ "refs": [
+  {"topic": "מבנה", "source": "Snapland buildings", "id": "bui-sanhedrin-7"},
+  {"topic": "היתר", "source": "Snapland linked-construction-permits", "id": "1966/413"},
+  {"topic": "אימות", "source": "אקסל המזמין, דוח סנהדרין 7", "id": "06.10.2026"}
+ ]
+}
